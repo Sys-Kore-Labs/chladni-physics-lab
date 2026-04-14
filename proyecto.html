@@ -54,3 +54,73 @@
         <p>Interactive Physics Project - Waves & Vibrations</p>
 
         <div class="controls">
+            <label><strong>Harmonic N:</strong> <input type="number" id="inputN" value="3" min="1" max="10"</label>
+            <label><strong>Harmonic M:</strong> <input type="number" id="inputM" value="5" min="1" max="10"</label>
+            <button onclick="scatterSand()">Scatter Sand</button>
+        </div>
+
+        <canvas id="plateCanvas" width="550" height="550"></canvas>
+
+        <div class="readme-selection">
+             <h3>Readme: The Physics Concepts</h3>
+             <p><strong>What is this?</strong> This is a simulation of a Chladni Plate. When a rigid square plate is vibrated at specific frequencies, it creates <em>standing waves</em>. </p>
+             <p><strong>How it Works:</strong> The vibration causes areas of maximun movent (antinodes) and areads of zero movents (nodes). The sand particles bounce off the vibrating areas and naturally collect in the nodes, forming beutifull geometric patterns.</p>
+             <p><strong>Math:</strong> The amplitude is calculated using the formula: <br>
+                
+                <code>z = cos(N*⊓*x) * cos(M*⊓*y) - cos(M*⊓*x) * cos(N*⊓*y)</code></p>
+            </div>
+        </div>
+
+        <script>
+            var canvas = document.getElementById("plateCanvas");
+            var ctx = canvas.getContext("2d");
+            var width = canvas.width;
+            var height = canvas.height;
+
+            var sandAmount = 12000;
+            var posX = new Float32Array(sandAmount);
+            var posY = new Float32Array(sandAmount);
+            
+            function scatterSand() {
+                for (var i = 0; i < sandAmount; i++) {
+                    posX[i] = Math.random() * width;
+                    posY[i] = Math.random() * height;
+                }
+            }
+
+            function simulatePhysics() {
+                ctx.clearRect(0,0, width, height);
+
+                var n = document.getElementById("inputN").value;
+                var m = document.getElementById("inputM").value;
+
+                ctx.fillStyle = '#111'; // Sand color
+
+                for (var i = 0; i < sandAmount; i++) {
+                    var x_norm = posX[i] / width;
+                    var y_norm = posY [i] / height;
+
+                    // Chladni 
+                    var amplitude = Math.cos(n * Math.PI * x_norm) * Math.cos(m * Math.PI * y_norm) -
+                                    Math.cos (m * Math.PI * x_norm) * Math.cos(n * Math.PI * y_norm);
+
+                    if (Math.abs(amplitud) > 0.08) {
+                        posicionesX[i] += (Math.random() - 0.5) * 8;
+                        posicionesY[i] += (Math.random() - 0.5) * 8;
+                    }
+
+                    if (posicionesX[i] < 0) posicionesX[i] = 0;
+                    if (posicionesX[i] > ancho) posicionesX[i] = ancho;
+                    if (posicionesY[i] < 0) posicionesY[i] = 0;
+                    if (posicionesY[i] > alto) posicionesY[i] =alto;
+
+                    ctx.fillRect(posicionesX[i], posicionesY[i], 2, 2);
+                }
+
+                requestAnimationFrame(simularFisica);
+            }
+            esparcirArena();
+            simularFisica();
+        </script>
+    </body>
+    </html>
