@@ -54,8 +54,8 @@
         <p>Interactive Physics Project - Waves & Vibrations</p>
 
         <div class="controls">
-            <label><strong>Harmonic N:</strong> <input type="number" id="inputN" value="3" min="1" max="10"</label>
-            <label><strong>Harmonic M:</strong> <input type="number" id="inputM" value="5" min="1" max="10"</label>
+            <label><strong>Harmonic N:</strong> <input type="number" id="inputN" value="3" min="1" max="10"></label>
+            <label><strong>Harmonic M:</strong> <input type="number" id="inputM" value="5" min="1" max="10"></label>
             <button onclick="scatterSand()">Scatter Sand</button>
         </div>
 
@@ -100,27 +100,25 @@
                     var x_norm = posX[i] / width;
                     var y_norm = posY [i] / height;
 
-                    // Chladni 
                     var amplitude = Math.cos(n * Math.PI * x_norm) * Math.cos(m * Math.PI * y_norm) -
                                     Math.cos (m * Math.PI * x_norm) * Math.cos(n * Math.PI * y_norm);
-
-                    if (Math.abs(amplitud) > 0.08) {
-                        posicionesX[i] += (Math.random() - 0.5) * 8;
-                        posicionesY[i] += (Math.random() - 0.5) * 8;
+                    if (Math.abs(amplitude) > 0.08) {
+                        posX[i] += (Math.random() - 0.5) * 8;
+                        posY[i] += (Math.random() - 0.5) * 8;
                     }
 
-                    if (posicionesX[i] < 0) posicionesX[i] = 0;
-                    if (posicionesX[i] > ancho) posicionesX[i] = ancho;
-                    if (posicionesY[i] < 0) posicionesY[i] = 0;
-                    if (posicionesY[i] > alto) posicionesY[i] =alto;
-
-                    ctx.fillRect(posicionesX[i], posicionesY[i], 2, 2);
+                    if (posX[i] < 0) posX[i] = 0;
+                    if (posX[i] > width) posX[i] = width;
+                    if (posY[i] < 0) posY[i] = 0;
+                    if (posY[i] > height) posY[i] = height;
+                    ctx.fillRect(posX[i], posY[i], 2, 2);
                 }
 
-                requestAnimationFrame(simularFisica);
+                requestAnimationFrame(simulatePhysics);
             }
-            esparcirArena();
-            simularFisica();
+
+            scatterSand();
+            simulatePhysics();
         </script>
     </body>
-    </html>
+    <html>
